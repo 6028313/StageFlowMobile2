@@ -1,5 +1,5 @@
-import { useRouter } from "expo-router";
-import React, { useEffect, useState } from "react";
+import { useRouter, useFocusEffect } from "expo-router";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -46,13 +46,11 @@ export default function CompaniesScreen() {
     }
   };
 
-  const openCreateCompany = () => {
-    router.push("/add-company");
-  };
-
-  useEffect(() => {
-    fetchCompanies();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchCompanies();
+    }, [])
+  );
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -61,6 +59,10 @@ export default function CompaniesScreen() {
 
     return () => clearInterval(timer);
   }, []);
+
+  const openCreateCompany = () => {
+    router.push("/add-company");
+  };
 
   if (loading) {
     return (
@@ -124,10 +126,7 @@ export default function CompaniesScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f6f8fc",
-  },
+  container: { flex: 1, backgroundColor: "#f6f8fc" },
   centerContainer: {
     flex: 1,
     backgroundColor: "#f6f8fc",
@@ -135,36 +134,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 24,
   },
-  loadingText: {
-    marginTop: 12,
-    fontSize: 16,
-    color: "#1f2a44",
-  },
+  loadingText: { marginTop: 12, fontSize: 16, color: "#1f2a44" },
   errorTitle: {
     fontSize: 24,
     fontWeight: "bold",
     color: "#07143d",
     marginBottom: 8,
   },
-  errorText: {
-    fontSize: 16,
-    color: "#1f2a44",
-    textAlign: "center",
-  },
-  header: {
-    paddingTop: 30,
-    paddingHorizontal: 24,
-    paddingBottom: 20,
-  },
-  title: {
-    fontSize: 34,
-    fontWeight: "bold",
-    color: "#07143d",
-  },
-  list: {
-    paddingHorizontal: 18,
-    paddingBottom: 110,
-  },
+  errorText: { fontSize: 16, color: "#1f2a44", textAlign: "center" },
+  header: { paddingTop: 30, paddingHorizontal: 24, paddingBottom: 20 },
+  title: { fontSize: 34, fontWeight: "bold", color: "#07143d" },
+  list: { paddingHorizontal: 18, paddingBottom: 110 },
   footer: {
     position: "absolute",
     bottom: 0,
@@ -178,17 +158,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
-  footerItem: {
-    alignItems: "center",
-  },
-  footerIconActive: {
-    fontSize: 28,
-    color: "#0647b7",
-  },
-  footerIcon: {
-    fontSize: 28,
-    color: "#6b7280",
-  },
+  footerItem: { alignItems: "center" },
+  footerIconActive: { fontSize: 28, color: "#0647b7" },
+  footerIcon: { fontSize: 28, color: "#6b7280" },
   footerTextActive: {
     fontSize: 13,
     fontWeight: "700",
