@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
+  ActivityIndicator,
+  Alert,
   FlatList,
   SafeAreaView,
   StatusBar,
-  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 import CompanyCard from "../components/CompanyCard";
@@ -31,7 +33,6 @@ export default function CompaniesScreen() {
       }
 
       const data = await response.json();
-
       const companiesData = Array.isArray(data) ? data : data.data;
 
       setCompanies(companiesData || []);
@@ -41,6 +42,13 @@ export default function CompaniesScreen() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const openCreateCompany = () => {
+    Alert.alert(
+      "Toevoegen",
+      "Hier moet straks het formulier van student 2 geopend worden.",
+    );
   };
 
   useEffect(() => {
@@ -84,11 +92,11 @@ export default function CompaniesScreen() {
       <FlatList
         data={companies}
         keyExtractor={(item, index) =>
-  item.apiCompanyId?.toString() ||
-  item.id?.toString() ||
-  item.apiCompanyID?.toString() ||
-  index.toString()
-}
+          item.apiCompanyId?.toString() ||
+          item.id?.toString() ||
+          item.apiCompanyID?.toString() ||
+          index.toString()
+        }
         renderItem={({ item }) => (
           <CompanyCard company={item} currentTime={currentTime} />
         )}
@@ -107,10 +115,10 @@ export default function CompaniesScreen() {
           <Text style={styles.footerText}>Kaart</Text>
         </View>
 
-        <View style={styles.footerItem}>
+        <TouchableOpacity style={styles.footerItem} onPress={openCreateCompany}>
           <Text style={styles.footerIcon}>＋</Text>
           <Text style={styles.footerText}>Toevoegen</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
