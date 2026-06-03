@@ -19,7 +19,7 @@ const COMPANIES_API_URL = "https://to.internus.info/api/apicompanies";
 
 export default function App() {
   const [companies, setCompanies] = useState([]);
-  const [companyFormVisible, setCompanyFormVisible] = useState(false);
+  const [companyFormVisible, setCompanyFormVisible] = useState(true);
   const [mapVisible, setMapVisible] = useState(false);
   const [companyId, setCompanyId] = useState(null);
 
