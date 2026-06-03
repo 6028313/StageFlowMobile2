@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import {
-  SafeAreaView,
-  View,
-  Text,
-  TextInput,
-  FlatList,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
   Alert,
-  Modal,
+  FlatList,
   Image,
   KeyboardAvoidingView,
+  Modal,
   Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import MapView, { Marker } from "react-native-maps";
 
 const COMPANIES_API_URL = "https://to.internus.info/api/apicompanies";
 
@@ -91,7 +90,14 @@ export default function App() {
   };
 
   const saveCompany = async () => {
-    if (!companyName || !address || !houseNumber || !postalCode || !city || !country) {
+    if (
+      !companyName ||
+      !address ||
+      !houseNumber ||
+      !postalCode ||
+      !city ||
+      !country
+    ) {
       Alert.alert("Let op", "Vul alle verplichte velden in.");
       return;
     }
@@ -119,7 +125,7 @@ export default function App() {
           method: companyId ? "PUT" : "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(company),
-        }
+        },
       );
 
       const responseText = await response.text();
@@ -128,7 +134,10 @@ export default function App() {
         throw new Error(responseText);
       }
 
-      Alert.alert("Succes", companyId ? "Bedrijf gewijzigd." : "Bedrijf toegevoegd.");
+      Alert.alert(
+        "Succes",
+        companyId ? "Bedrijf gewijzigd." : "Bedrijf toegevoegd.",
+      );
       setCompanyFormVisible(false);
       resetCompanyForm();
       loadCompanies();
@@ -140,26 +149,30 @@ export default function App() {
   };
 
   const deleteCompany = () => {
-    Alert.alert("Verwijderen", "Weet je zeker dat je dit bedrijf wilt verwijderen?", [
-      { text: "Annuleren", style: "cancel" },
-      {
-        text: "Verwijderen",
-        style: "destructive",
-        onPress: async () => {
-          try {
-            await fetch(`${COMPANIES_API_URL}/${companyId}`, {
-              method: "DELETE",
-            });
+    Alert.alert(
+      "Verwijderen",
+      "Weet je zeker dat je dit bedrijf wilt verwijderen?",
+      [
+        { text: "Annuleren", style: "cancel" },
+        {
+          text: "Verwijderen",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await fetch(`${COMPANIES_API_URL}/${companyId}`, {
+                method: "DELETE",
+              });
 
-            setCompanyFormVisible(false);
-            resetCompanyForm();
-            loadCompanies();
-          } catch {
-            Alert.alert("Fout", "Bedrijf verwijderen is mislukt.");
-          }
+              setCompanyFormVisible(false);
+              resetCompanyForm();
+              loadCompanies();
+            } catch {
+              Alert.alert("Fout", "Bedrijf verwijderen is mislukt.");
+            }
+          },
         },
-      },
-    ]);
+      ],
+    );
   };
 
   const validCompanies = companies.filter(
@@ -167,7 +180,7 @@ export default function App() {
       company.latitude &&
       company.longitude &&
       !isNaN(parseFloat(company.latitude)) &&
-      !isNaN(parseFloat(company.longitude))
+      !isNaN(parseFloat(company.longitude)),
   );
 
   return (
@@ -183,19 +196,29 @@ export default function App() {
         }
         contentContainerStyle={styles.list}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.card} onPress={() => openEditCompany(item)}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => openEditCompany(item)}
+          >
             {item.logoUrl || item.logo ? (
-              <Image source={{ uri: item.logoUrl || item.logo }} style={styles.logo} />
+              <Image
+                source={{ uri: item.logoUrl || item.logo }}
+                style={styles.logo}
+              />
             ) : (
               <View style={styles.logoPlaceholder}>
                 <Text style={styles.logoLetter}>
-                  {(item.companyName || item.name || "?").charAt(0).toUpperCase()}
+                  {(item.companyName || item.name || "?")
+                    .charAt(0)
+                    .toUpperCase()}
                 </Text>
               </View>
             )}
 
             <View style={styles.info}>
-              <Text style={styles.companyName}>{item.companyName || item.name}</Text>
+              <Text style={styles.companyName}>
+                {item.companyName || item.name}
+              </Text>
               <Text style={styles.text}>
                 {item.address} {item.houseNumber || item.number}
                 {item.addition ? ` ${item.addition}` : ""}
@@ -216,7 +239,10 @@ export default function App() {
           <Text style={styles.footerTextActive}>Bedrijven</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.footerItem} onPress={() => setMapVisible(true)}>
+        <TouchableOpacity
+          style={styles.footerItem}
+          onPress={() => setMapVisible(true)}
+        >
           <Text style={styles.footerIcon}>🌍</Text>
           <Text style={styles.footerText}>Kaart</Text>
         </TouchableOpacity>
@@ -237,28 +263,6 @@ export default function App() {
             <Text style={styles.modalTitle}>Kaart</Text>
             <View style={{ width: 60 }} />
           </View>
-
-          <MapView
-            style={styles.map}
-            initialRegion={{
-              latitude: 52.3676,
-              longitude: 4.9041,
-              latitudeDelta: 20,
-              longitudeDelta: 20,
-            }}
-          >
-            {validCompanies.map((company, index) => (
-              <Marker
-                key={getCompanyId(company)?.toString() || index.toString()}
-                coordinate={{
-                  latitude: parseFloat(company.latitude),
-                  longitude: parseFloat(company.longitude),
-                }}
-                title={company.companyName || company.name}
-                description={`${company.city}, ${company.country}`}
-              />
-            ))}
-          </MapView>
         </SafeAreaView>
       </Modal>
 
@@ -274,7 +278,9 @@ export default function App() {
             </Text>
 
             <TouchableOpacity onPress={saveCompany} disabled={loading}>
-              <Text style={styles.saveButton}>{loading ? "Bezig..." : "Opslaan"}</Text>
+              <Text style={styles.saveButton}>
+                {loading ? "Bezig..." : "Opslaan"}
+              </Text>
             </TouchableOpacity>
           </View>
 
@@ -282,43 +288,104 @@ export default function App() {
             style={{ flex: 1 }}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
-            <ScrollView contentContainerStyle={styles.form} keyboardShouldPersistTaps="handled">
+            <ScrollView
+              contentContainerStyle={styles.form}
+              keyboardShouldPersistTaps="handled"
+            >
               <View style={styles.formSection}>
                 <Text style={styles.sectionTitle}>Bedrijf</Text>
-                <TextInput style={styles.input} placeholder="Bedrijfsnaam *" value={companyName} onChangeText={setCompanyName} />
-                <TextInput style={styles.input} placeholder="Logo URL" value={logoUrl} onChangeText={setLogoUrl} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Bedrijfsnaam *"
+                  value={companyName}
+                  onChangeText={setCompanyName}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Logo URL"
+                  value={logoUrl}
+                  onChangeText={setLogoUrl}
+                />
               </View>
 
               <View style={styles.formSection}>
                 <Text style={styles.sectionTitle}>Adres</Text>
-                <TextInput style={styles.input} placeholder="Adres *" value={address} onChangeText={setAddress} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Adres *"
+                  value={address}
+                  onChangeText={setAddress}
+                />
 
                 <View style={styles.row}>
-                  <TextInput style={[styles.input, styles.halfInput]} placeholder="Huisnummer *" value={houseNumber} onChangeText={setHouseNumber} />
-                  <TextInput style={[styles.input, styles.halfInput]} placeholder="Toevoeging" value={addition} onChangeText={setAddition} />
+                  <TextInput
+                    style={[styles.input, styles.halfInput]}
+                    placeholder="Huisnummer *"
+                    value={houseNumber}
+                    onChangeText={setHouseNumber}
+                  />
+                  <TextInput
+                    style={[styles.input, styles.halfInput]}
+                    placeholder="Toevoeging"
+                    value={addition}
+                    onChangeText={setAddition}
+                  />
                 </View>
 
                 <View style={styles.row}>
-                  <TextInput style={[styles.input, styles.halfInput]} placeholder="Postcode *" value={postalCode} onChangeText={setPostalCode} />
-                  <TextInput style={[styles.input, styles.halfInput]} placeholder="Stad *" value={city} onChangeText={setCity} />
+                  <TextInput
+                    style={[styles.input, styles.halfInput]}
+                    placeholder="Postcode *"
+                    value={postalCode}
+                    onChangeText={setPostalCode}
+                  />
+                  <TextInput
+                    style={[styles.input, styles.halfInput]}
+                    placeholder="Stad *"
+                    value={city}
+                    onChangeText={setCity}
+                  />
                 </View>
 
-                <TextInput style={styles.input} placeholder="Land *" value={country} onChangeText={setCountry} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Land *"
+                  value={country}
+                  onChangeText={setCountry}
+                />
               </View>
 
               <View style={styles.formSection}>
                 <Text style={styles.sectionTitle}>Locatie</Text>
 
                 <View style={styles.row}>
-                  <TextInput style={[styles.input, styles.halfInput]} placeholder="Latitude *" value={companyLatitude} onChangeText={setCompanyLatitude} />
-                  <TextInput style={[styles.input, styles.halfInput]} placeholder="Longitude *" value={companyLongitude} onChangeText={setCompanyLongitude} />
+                  <TextInput
+                    style={[styles.input, styles.halfInput]}
+                    placeholder="Latitude *"
+                    value={companyLatitude}
+                    onChangeText={setCompanyLatitude}
+                  />
+                  <TextInput
+                    style={[styles.input, styles.halfInput]}
+                    placeholder="Longitude *"
+                    value={companyLongitude}
+                    onChangeText={setCompanyLongitude}
+                  />
                 </View>
 
-                <TextInput style={styles.input} placeholder="Tijdzone *" value={timezone} onChangeText={setTimezone} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Tijdzone *"
+                  value={timezone}
+                  onChangeText={setTimezone}
+                />
               </View>
 
               {companyId && (
-                <TouchableOpacity style={styles.deleteButton} onPress={deleteCompany}>
+                <TouchableOpacity
+                  style={styles.deleteButton}
+                  onPress={deleteCompany}
+                >
                   <Text style={styles.deleteText}>Bedrijf verwijderen</Text>
                 </TouchableOpacity>
               )}
@@ -359,7 +426,12 @@ const styles = StyleSheet.create({
   },
   logoLetter: { fontSize: 30, fontWeight: "bold", color: "#0647b7" },
   info: { flex: 1 },
-  companyName: { fontSize: 18, fontWeight: "bold", color: "#07143d", marginBottom: 8 },
+  companyName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#07143d",
+    marginBottom: 8,
+  },
   text: { fontSize: 14, color: "#1f2a44", marginBottom: 5 },
   timezone: { fontSize: 14, color: "#0647b7", fontWeight: "600", marginTop: 6 },
   editText: { fontSize: 13, color: "#6b7280", marginTop: 8 },
@@ -380,8 +452,18 @@ const styles = StyleSheet.create({
   footerItem: { alignItems: "center" },
   footerIconActive: { fontSize: 28, color: "#0647b7" },
   footerIcon: { fontSize: 28, color: "#6b7280" },
-  footerTextActive: { fontSize: 13, fontWeight: "700", color: "#0647b7", marginTop: 4 },
-  footerText: { fontSize: 13, fontWeight: "600", color: "#6b7280", marginTop: 4 },
+  footerTextActive: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: "#0647b7",
+    marginTop: 4,
+  },
+  footerText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#6b7280",
+    marginTop: 4,
+  },
 
   modalHeader: {
     height: 60,

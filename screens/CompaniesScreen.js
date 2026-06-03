@@ -1,7 +1,7 @@
+import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   FlatList,
   SafeAreaView,
   StatusBar,
@@ -16,6 +16,8 @@ import CompanyCard from "../components/CompanyCard";
 const API_URL = "https://to.internus.info/api/apicompanies";
 
 export default function CompaniesScreen() {
+  const router = useRouter();
+
   const [companies, setCompanies] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [loading, setLoading] = useState(true);
@@ -29,7 +31,7 @@ export default function CompaniesScreen() {
       const response = await fetch(API_URL);
 
       if (!response.ok) {
-        throw new Error("API geeft geen succesvolle response terug.");
+        throw new Error("API fout");
       }
 
       const data = await response.json();
@@ -45,10 +47,7 @@ export default function CompaniesScreen() {
   };
 
   const openCreateCompany = () => {
-    Alert.alert(
-      "Toevoegen",
-      "Hier moet straks het formulier van student 2 geopend worden.",
-    );
+    router.push("/add-company");
   };
 
   useEffect(() => {
