@@ -41,22 +41,40 @@ export default function AddCompanyScreen() {
         <ScrollView contentContainerStyle={styles.form}>
           <View style={styles.formSection}>
             <Text style={styles.sectionTitle}>Bedrijf</Text>
-            <TextInput style={styles.input} placeholder="Bedrijfsnaam *" />
-            <TextInput style={styles.input} placeholder="Logo URL" />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Bedrijfsnaam *"
+              placeholderTextColor="#374151"
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Logo URL"
+              placeholderTextColor="#374151"
+            />
           </View>
 
           <View style={styles.formSection}>
             <Text style={styles.sectionTitle}>Adres</Text>
-            <TextInput style={styles.input} placeholder="Adres *" />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Adres *"
+              placeholderTextColor="#374151"
+            />
 
             <View style={styles.row}>
               <TextInput
                 style={[styles.input, styles.halfInput]}
                 placeholder="Huisnummer *"
+                placeholderTextColor="#374151"
               />
+
               <TextInput
                 style={[styles.input, styles.halfInput]}
                 placeholder="Toevoeging"
+                placeholderTextColor="#374151"
               />
             </View>
 
@@ -64,14 +82,21 @@ export default function AddCompanyScreen() {
               <TextInput
                 style={[styles.input, styles.halfInput]}
                 placeholder="Postcode *"
+                placeholderTextColor="#374151"
               />
+
               <TextInput
                 style={[styles.input, styles.halfInput]}
                 placeholder="Stad *"
+                placeholderTextColor="#374151"
               />
             </View>
 
-            <TextInput style={styles.input} placeholder="Land *" />
+            <TextInput
+              style={styles.input}
+              placeholder="Land *"
+              placeholderTextColor="#374151"
+            />
           </View>
 
           <View style={styles.formSection}>
@@ -81,14 +106,21 @@ export default function AddCompanyScreen() {
               <TextInput
                 style={[styles.input, styles.halfInput]}
                 placeholder="Latitude *"
+                placeholderTextColor="#374151"
               />
+
               <TextInput
                 style={[styles.input, styles.halfInput]}
                 placeholder="Longitude *"
+                placeholderTextColor="#374151"
               />
             </View>
 
-            <TextInput style={styles.input} placeholder="Tijdzone *" />
+            <TextInput
+              style={styles.input}
+              placeholder="Tijdzone *"
+              placeholderTextColor="#374151"
+            />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -159,6 +191,7 @@ const styles = StyleSheet.create({
 
   input: {
     backgroundColor: "#ffffff",
+    color: "#111827",
     minHeight: 54,
     borderRadius: 10,
     paddingHorizontal: 14,
