@@ -1,6 +1,6 @@
-import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
 import moment from "moment-timezone";
+import React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function CompanyCard({ company, currentTime }) {
   const companyName =
@@ -10,7 +10,8 @@ export default function CompanyCard({ company, currentTime }) {
     "Onbekend bedrijf";
 
   const address = company.address || company.adres || "";
-  const houseNumber = company.houseNumber || company.huisnummer || "";
+  const houseNumber =
+    company.houseNumber || company.number || company.huisnummer || "";
   const addition = company.addition || company.toevoeging || "";
   const postalCode = company.postalCode || company.postcode || "";
   const city = company.city || company.stad || "";
@@ -18,11 +19,19 @@ export default function CompanyCard({ company, currentTime }) {
 
   const logo = company.logo || company.logoUrl || company.logoURL || "";
 
-  const timezone =
+  let timezone =
     company.timezone ||
     company.timeZone ||
     company.tijdzone ||
     "Europe/Amsterdam";
+
+  if (timezone === "Europa/Amsterdam") {
+    timezone = "Europe/Amsterdam";
+  }
+
+  if (!moment.tz.zone(timezone)) {
+    timezone = "Europe/Amsterdam";
+  }
 
   const localTime = moment
     .tz(currentTime || new Date(), timezone)
