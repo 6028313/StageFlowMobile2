@@ -65,6 +65,7 @@ export default function CompaniesScreen() {
   };
 
   const openMap = () => {
+    console.log("kaart klik");
     router.push("/kaart");
   };
 
