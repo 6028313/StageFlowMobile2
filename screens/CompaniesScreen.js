@@ -1,4 +1,4 @@
-import { useRouter, useFocusEffect } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -49,7 +49,7 @@ export default function CompaniesScreen() {
   useFocusEffect(
     useCallback(() => {
       fetchCompanies();
-    }, [])
+    }, []),
   );
 
   useEffect(() => {
@@ -62,6 +62,10 @@ export default function CompaniesScreen() {
 
   const openCreateCompany = () => {
     router.push("/add-company");
+  };
+
+  const openMap = () => {
+    router.push("/kaart");
   };
 
   if (loading) {
@@ -111,10 +115,10 @@ export default function CompaniesScreen() {
           <Text style={styles.footerTextActive}>Bedrijven</Text>
         </View>
 
-        <View style={styles.footerItem}>
+        <TouchableOpacity style={styles.footerItem} onPress={openMap}>
           <Text style={styles.footerIcon}>🌍</Text>
           <Text style={styles.footerText}>Kaart</Text>
-        </View>
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.footerItem} onPress={openCreateCompany}>
           <Text style={styles.footerIcon}>＋</Text>
