@@ -36,19 +36,23 @@ export default function AddCompanyScreen() {
       return;
     }
 
-    const company = {
-      name: companyName.trim(),
-      address: address.trim(),
-      number: houseNumber.trim(),
-      addition: addition.trim(),
-      postalCode: postalCode.trim(),
-      city: city.trim(),
-      country: country.trim(),
-      logo: logoUrl.trim(),
-      latitude: latitude.trim(),
-      longitude: longitude.trim(),
-      timezone: timezone.trim(),
-    };
+   const company = {
+  name: companyName.trim(),
+  address: address.trim(),
+  number: houseNumber.trim(),
+  addition: addition.trim(),
+  postalCode: postalCode.trim(),
+  city: city.trim(),
+  country: country.trim(),
+
+  logo: logoUrl.trim(),
+  logoUrl: logoUrl.trim(),
+  logoURL: logoUrl.trim(),
+
+  latitude: latitude.trim(),
+  longitude: longitude.trim(),
+  timezone: timezone.trim(),
+};
 
     try {
       const response = await fetch(API_URL, {
