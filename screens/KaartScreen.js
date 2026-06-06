@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
@@ -7,15 +8,18 @@ const API_URL = "https://to.internus.info/api/apicompanies";
 export default function KaartScreen() {
   const [companies, setCompanies] = useState([]);
 
-  useEffect(() => {
-    fetch(API_URL)
-      .then((res) => res.json())
-      .then((data) => {
-        const list = Array.isArray(data) ? data : data.data;
-        setCompanies(list || []);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  const fetchCompanies = async () => {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    const list = Array.isArray(data) ? data : data.data;
+    setCompanies(list || []);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchCompanies();
+    }, []),
+  );
 
   return (
     <View style={styles.container}>
