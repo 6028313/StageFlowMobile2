@@ -3,31 +3,16 @@ import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function CompanyCard({ company, currentTime }) {
-  const companyName =
-    company.companyName ||
-    company.name ||
-    company.bedrijfsnaam ||
-    "Onbekend bedrijf";
+  const companyName = company.name || "Onbekend bedrijf";
+  const address = company.address || "";
+  const houseNumber = company.number || "";
+  const addition = company.addition || "";
+  const postalCode = company.postalCode || "";
+  const city = company.city || "";
+  const country = company.country || "";
+  const logo = company.logoUrl || "";
 
-  const address = company.address || company.adres || "";
-  const houseNumber =
-    company.houseNumber || company.number || company.huisnummer || "";
-  const addition = company.addition || company.toevoeging || "";
-  const postalCode = company.postalCode || company.postcode || "";
-  const city = company.city || company.stad || "";
-  const country = company.country || company.land || "";
-
-  const logo = company.logo || company.logoUrl || company.logoURL || "";
-
-  let timezone =
-    company.timezone ||
-    company.timeZone ||
-    company.tijdzone ||
-    "Europe/Amsterdam";
-
-  if (timezone === "Europa/Amsterdam") {
-    timezone = "Europe/Amsterdam";
-  }
+  let timezone = company.timeZone || "Europe/Amsterdam";
 
   if (!moment.tz.zone(timezone)) {
     timezone = "Europe/Amsterdam";

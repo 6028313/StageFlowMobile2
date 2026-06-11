@@ -97,12 +97,7 @@ export default function CompaniesScreen() {
 
       <FlatList
         data={companies}
-        keyExtractor={(item, index) =>
-          item.apiCompanyId?.toString() ||
-          item.id?.toString() ||
-          item.apiCompanyID?.toString() ||
-          index.toString()
-        }
+        keyExtractor={(item) => item.sfCompanyId.toString()}
         renderItem={({ item }) => (
           <CompanyCard company={item} currentTime={currentTime} />
         )}
